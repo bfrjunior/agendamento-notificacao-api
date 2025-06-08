@@ -3,6 +3,7 @@ package com.fernandorocha.agendamento_notificacao_api.business;
 import com.fernandorocha.agendamento_notificacao_api.business.mapper.IAgendamentoMapper;
 import com.fernandorocha.agendamento_notificacao_api.controller.dto.in.AgendamentoRecord;
 import com.fernandorocha.agendamento_notificacao_api.controller.dto.out.AgendamentoRecordOut;
+import com.fernandorocha.agendamento_notificacao_api.infrastructure.exception.NotFoundException;
 import com.fernandorocha.agendamento_notificacao_api.infrastructure.repositories.AgendamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,12 @@ public class AgendamentoService {
                 repository.save(
                         agendamentoMapper.paraEntity(agendamento)));
     }
+
+    public AgendamentoRecordOut buscarAgendamentosPorId(Long id){
+        return agendamentoMapper.paraOut(repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Id não encontrador")));
+    }
+
 
 
 
