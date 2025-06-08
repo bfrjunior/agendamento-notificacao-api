@@ -3,6 +3,7 @@ package com.fernandorocha.agendamento_notificacao_api.business;
 import com.fernandorocha.agendamento_notificacao_api.business.mapper.IAgendamentoMapper;
 import com.fernandorocha.agendamento_notificacao_api.controller.dto.in.AgendamentoRecord;
 import com.fernandorocha.agendamento_notificacao_api.controller.dto.out.AgendamentoRecordOut;
+import com.fernandorocha.agendamento_notificacao_api.infrastructure.entities.Agendamento;
 import com.fernandorocha.agendamento_notificacao_api.infrastructure.exception.NotFoundException;
 import com.fernandorocha.agendamento_notificacao_api.infrastructure.repositories.AgendamentoRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,12 @@ public class AgendamentoService {
     }
 
 
-
+    public void cancelarAgendamento(Long id){
+        Agendamento agendamento = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Id não encontrador"));
+        repository.save(
+                agendamentoMapper.paraEntityCancelamento(agendamento)
+        );
+    }
 
 }
